@@ -1,0 +1,71 @@
+﻿@model DVPRO.DATA.EF.Models.Vendor
+
+@{
+    ViewData["Title"] = "Vendor";
+}
+
+<h1 class="text-center">Vendor</h1>
+
+<h4 class="text-center">Create Vendor</h4>
+<hr />
+<div class="row">
+    <div class="offset-4 col-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="VendorName" class="control-label"></label>
+                <input asp-for="VendorName" class="form-control" />
+                <span asp-validation-for="VendorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorContact" class="control-label"></label>
+                <input asp-for="VendorContact" class="form-control" />
+                <span asp-validation-for="VendorContact" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorPhone" class="control-label"></label>
+                <input asp-for="VendorPhone" class="form-control" />
+                <span asp-validation-for="VendorPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorEmail" class="control-label"></label>
+                <input asp-for="VendorEmail" class="form-control" />
+                <span asp-validation-for="VendorEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorAddress" class="control-label"></label>
+                <input asp-for="VendorAddress" class="form-control" />
+                <span asp-validation-for="VendorAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorCity" class="control-label"></label>
+                <input asp-for="VendorCity" class="form-control" />
+                <span asp-validation-for="VendorCity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorState" class="control-label"></label>
+                <input asp-for="VendorState" class="form-control" />
+                <span asp-validation-for="VendorState" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorPostalCode" class="control-label"></label>
+                <input asp-for="VendorPostalCode" class="form-control" />
+                <span asp-validation-for="VendorPostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CountryId" class="control-label"></label>
+                <select asp-for="CountryId" class ="form-control" asp-items="ViewBag.CountryId"></select>
+            </div>
+            <div class="row mt-2">
+                <div class="form-group text-center">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-primary offset-1">Back to List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

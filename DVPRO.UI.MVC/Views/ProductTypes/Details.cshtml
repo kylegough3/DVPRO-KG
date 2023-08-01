@@ -1,0 +1,86 @@
+﻿@model DVPRO.DATA.EF.Models.ProductType
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div id="details">
+    <h4>ProductType</h4>
+<div class="row mt-2">
+    <button class="col-md-2 btn btn-primary mx-2" id="copyButton">Copy to Clipboard</button>
+    <button class="col-md-2 btn btn-primary mx-2" id="exportButton">Export to PDF</button>
+</div>
+    <hr />
+    <dl class="row" id="Content">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductTypeName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProductTypeName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.ProductTypeId">Edit</a>
+    <a class="btn btn-primary" asp-action="Index">Back to List</a>
+</div>
+
+
+
+
+@section Scripts {
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script src="~/assets/vendor/jspdf/jspdf.js"></script>
+
+    <script>
+        document.getElementById('copyButton').addEventListener('click', function () {
+            const dlElement = document.getElementById('Content');
+            const textToCopy = dlElement.innerText;
+
+            if (navigator.clipboard) {
+                // Use the Clipboard API if available (modern browsers)
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        alert('Content copied to clipboard!');
+                    })
+                    .catch((error) => {
+                        console.error('Failed to copy: ', error);
+                    });
+            } else {
+                // Fallback for older browsers that do not support the Clipboard API
+                const textField = document.createElement('textarea');
+                textField.innerText = textToCopy;
+                document.body.appendChild(textField);
+                textField.select();
+                document.execCommand('copy');
+                document.body.removeChild(textField);
+                alert('Content copied to clipboard!');
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById("exportButton").addEventListener("click", function () {
+
+            // Get the content to be exported
+            const details = document.getElementById('details')
+
+
+            // Options for the PDF export
+            const options = {
+                margin: 10,
+                filename: 'exported.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Generate the PDF
+            html2pdf().from(details).set(options).save();
+        });
+
+    </script>
+}

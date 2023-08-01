@@ -1,0 +1,161 @@
+﻿﻿@using ChartJSCore.Models;
+@using DVPRO.DATA.EF.Models;
+@{
+
+    ViewData["Title"] = "Admin Dashboard";
+
+}
+
+@*<main id="main" class="main">*@
+<h1>Admin Dashboard</h1>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card cardChart">
+            <div class="card-body">
+                <div class="chart-area chartTitle" id="barChartContainer">
+
+
+
+                    <h5 class="card-title chartTitle">Sales - @DateTime.Now.Year</h5>
+                    <!-- Bar Chart -->
+                    <canvas id="salesBarChart" style="max-height: 400px;"></canvas>
+                    @{
+                        ChartJSCore.Models.Chart barChart = (ChartJSCore.Models.Chart)ViewData["BarChart"];
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card cardChart">
+            <div class="card-body">
+                <div class="chart-area " id="pieChartContainer">
+
+
+
+                    <h5 class="card-title chartTitle">Sales by Rep - @DateTime.Now.Year</h5>
+                    <!-- Bar Chart -->
+                    <canvas id="salesPieChart" style="max-height: 400px;"></canvas>
+                    @{
+                        ChartJSCore.Models.Chart pieChart = (ChartJSCore.Models.Chart)ViewData["PieChart"];
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="card cardChart">
+            <div class="card-body">
+                <div class="chart-area chartTitle" id="custBarContainer">
+
+
+
+                    <h5 class="card-title chartTitle">Top 10 Customers by Revenue</h5>
+                    <!-- Bar Chart -->
+                    <canvas id="custBar" style="max-height: 400px;"></canvas>
+                    @{
+                        ChartJSCore.Models.Chart custBar = (ChartJSCore.Models.Chart)ViewData["CustSalesBar"];
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+
+
+    <table class="table datatable">
+        <thead>
+            <tr>
+                <th>
+                    Customer Name
+                </th>
+                <th>
+                    Contact Name
+                </th>
+                <th>
+                    Contact Phone
+                </th>
+                <th>
+                    Contact Email
+                </th>
+                <th>
+                    Country
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                List<Customer>? custInfo = (List<Customer>?)ViewData["AllCustInfo"];
+
+
+            }
+            @foreach (var item in custInfo)
+            {
+                <tr>
+                    <td>
+                        @item.CustomerName
+                    </td>
+                    <td>
+                        @item.ContactName
+                    </td>
+                    <td>
+                        @item.ContactPhone
+                    </td>
+                    <td>
+                        @item.ContactEmail
+                    </td>
+                    <td>
+                        @item.Country.CountryName
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+@*</main>*@
+
+@section scripts {
+    <script type="text/javascript">
+        @Html.Raw(barChart.CreateChartCode("salesBarChart"))
+    </script>
+    <script type="text/javascript">
+        @Html.Raw(pieChart.CreateChartCode("salesPieChart"))
+    </script>
+    <script type="text/javascript">
+        @Html.Raw(custBar.CreateChartCode("custBar"))
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.datatable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
+}
